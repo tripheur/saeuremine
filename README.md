@@ -54,7 +54,7 @@ saeuremine-sim/
 
 ## Bekannte Baustellen
 
-Siehe [TODO.md](./TODO.md) für die priorisierte Liste.
+Siehe [TODO.md](./doc/TODO.md) für die priorisierte Liste.
 
 ## Setup
 
