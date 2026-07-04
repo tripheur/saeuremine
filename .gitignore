@@ -1,0 +1,29 @@
+# Godot 4+ spezifisch
+.godot/
+.import/
+
+# Godot-eigene Backup-Dateien
+*.tmp
+*-shader.tmp
+
+# Export-Artefakte (Builds gehören nicht ins Repo, siehe unten)
+export/
+export_presets.cfg.uid
+*.apk
+*.apk.idsig
+*.aab
+*.pck
+*.zip
+*.dmg
+*.exe
+*.x86_64
+
+# Android-Build-Zeug, falls du mal native Android-Plugins nutzt
+android/build/
+
+# OS-Müll
+.DS_Store
+Thumbs.db
+
+# Editor-/IDE-Ordner, falls du z.B. VS Code nutzt
+.vscode/
