@@ -2,6 +2,7 @@ class_name Game
 extends Control
 
 @export var saeure_label: Label
+@export var geld_label: Label
 @export var arbeiter_label: Label
 @export var buy_button: Button
 @export var work_button: Button
