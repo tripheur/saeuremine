@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_qsmnf"]
 
-[node name="Game" type="Control" node_paths=PackedStringArray("saeure_label", "geld_label", "arbeiter_label", "buy_button", "work_button", "save_button", "timer", "log_label")]
+[node name="Game" type="Control" node_paths=PackedStringArray("saeure_label", "geld_label", "arbeiter_label", "buy_button", "sell_button", "work_button", "save_button", "upgrade_button", "timer", "log_label")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -14,28 +14,33 @@ saeure_label = NodePath("Saeure")
 geld_label = NodePath("geld")
 arbeiter_label = NodePath("Arbeiter")
 buy_button = NodePath("Buybutton")
+sell_button = NodePath("Sellbutton")
 work_button = NodePath("Workbutton")
 save_button = NodePath("SaveButton")
+upgrade_button = NodePath("Upgradebutton")
 timer = NodePath("Timer")
 log_label = NodePath("ScrollContainer/Loglabel")
 
 [node name="Saeure" type="Label" parent="."]
 custom_minimum_size = Vector2(0, 80)
 layout_mode = 1
-offset_left = 24.0
-offset_top = 80.0
-offset_right = 320.0
-offset_bottom = 160.0
-theme_override_font_sizes/font_size = 31
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 37.0
+offset_top = -257.0
+offset_right = 333.0
+offset_bottom = -177.0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 28
 text = "Säure: <value> Liter"
-horizontal_alignment = 1
 
 [node name="geld" type="Label" parent="."]
-layout_mode = 0
-offset_left = 23.0
-offset_top = 38.0
-offset_right = 305.0
-offset_bottom = 111.0
+layout_mode = 1
+offset_left = 37.0
+offset_top = 21.0
+offset_right = 319.0
+offset_bottom = 94.0
 theme_override_font_sizes/font_size = 28
 text = "Vermögen: <value> €"
 
@@ -54,7 +59,7 @@ offset_bottom = 4.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 53
-text = "Schuften!"
+text = "Selber schuften"
 
 [node name="Buybutton" type="Button" parent="."]
 custom_minimum_size = Vector2(320, 80)
@@ -65,9 +70,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -401.0
-offset_top = 93.0
+offset_top = 76.0
 offset_right = -81.0
-offset_bottom = 173.0
+offset_bottom = 156.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "Arbeiter kaufen: <value> €"
@@ -78,12 +83,11 @@ layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -360.0
-offset_top = 38.0
-offset_right = -30.0
-offset_bottom = 118.0
+offset_left = -330.0
+offset_top = 28.0
+offset_bottom = 108.0
 grow_horizontal = 0
-theme_override_font_sizes/font_size = 40
+theme_override_font_sizes/font_size = 28
 text = "Arbeiter: <value>"
 horizontal_alignment = 1
 
@@ -120,9 +124,9 @@ anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -100.0
-offset_top = 35.0
+offset_top = 26.0
 offset_right = 100.0
-offset_bottom = 115.0
+offset_bottom = 106.0
 grow_horizontal = 2
 theme_override_font_sizes/font_size = 35
 text = "Speichern"
@@ -136,14 +140,28 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = 9.0
-offset_top = 96.0
+offset_top = 76.0
 offset_right = 329.0
-offset_bottom = 176.0
+offset_bottom = 156.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 35
 text = "Upgrades"
 
+[node name="Sellbutton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 37.0
+offset_top = -201.0
+offset_right = 322.0
+offset_bottom = -153.0
+grow_vertical = 2
+text = "Säure verkaufen (<value> €/Liter)
+"
+
 [connection signal="pressed" from="Workbutton" to="." method="_on_work_button_pressed"]
 [connection signal="pressed" from="Buybutton" to="." method="_on_buy_button_pressed"]
 [connection signal="pressed" from="SaveButton" to="." method="_on_save_button_pressed"]
+[connection signal="pressed" from="Sellbutton" to="." method="_on_sell_button_pressed"]

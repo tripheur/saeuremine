@@ -20,13 +20,13 @@ static func create(w_name: String, w_type: Worker.Type, w_is_male: bool) -> Work
 		Worker.Type.ADULT:
 			w.production = 2
 			w.lifetime = 60.0
-			w.inheritance = 30
+			w.inheritance = 300
 		Worker.Type.RETIREE:
 			w.production = 1
 			w.lifetime = 30.0
-			w.inheritance = 50
+			w.inheritance = 5000
 		Worker.Type.CHILD:
-			w.production = 3
+			w.production = 30
 			w.lifetime = 20.0
 			w.inheritance = 10
 	return w

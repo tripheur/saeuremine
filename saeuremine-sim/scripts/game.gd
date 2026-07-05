@@ -5,14 +5,19 @@ extends Control
 @export var geld_label: Label
 @export var arbeiter_label: Label
 @export var buy_button: Button
+@export var sell_button: Button
 @export var work_button: Button
 @export var save_button: Button
+@export var upgrade_button: Button
 @export var timer: Timer
 @export var log_label: Label
 
 var acid: int = 0
+var money: int = 0
 var worker_cost: int = 10
+var acid_cost: int = 1  # wie viel Säure für 1 Geld beim Verkaufen (später fürs Balancing anpassen)
 var total_acid_earned: int = 0
+var total_money_earned: int = 0
 var total_deaths: int = 0
 var family_name: String
 
@@ -75,7 +80,6 @@ func _ready() -> void:
 	else:
 		generate_family()
 	update_labels()
-	update_buy_button()
 
 func generate_family() -> void:
 	family_name = family_names[randi() % family_names.size()]
@@ -134,15 +138,32 @@ func _on_work_button_pressed() -> void:
 	total_acid_earned += 1
 	update_labels()
 
+func _on_sell_button_pressed() -> void:
+	var amount = acid / acid_cost
+	if amount > 0:
+		money += amount
+		acid -= amount * acid_cost
+		total_money_earned += amount
+		add_log("%s Liter Säure für %s € verkauft." % [amount * acid_cost, amount])
+		update_labels()
+	else:
+		add_log("Nicht genug Säure zum Verkaufen (mind. %s nötig)." % acid_cost)
+
 func _on_buy_button_pressed() -> void:
-	if acid >= worker_cost and family_pool.size() > 0:
-		acid -= worker_cost
+	if money >= worker_cost and family_pool.size() > 0:
+		money -= worker_cost
 		var new_worker = family_pool.pop_front()
 		active_workers.append(new_worker)
 		worker_cost = int(worker_cost * 1.1)
 		add_log("%s wurde in die Mine geschickt." % new_worker.worker_name)
 		update_labels()
-		update_buy_button()
+
+func _on_upgrade_button_pressed() -> void:
+	# TODO: sobald die Upgrade-Szene existiert, hier das Popup instanzieren/anzeigen
+	# z.B. var popup = preload("res://scenes/upgrade_popup.tscn").instantiate()
+	#      add_child(popup)
+	#      popup.setup(money)  # damit das Popup weiß, was sich der Spieler leisten kann
+	pass
 
 func _on_timer_timeout() -> void:
 	var to_remove: Array[Worker] = []
@@ -156,8 +177,8 @@ func _on_timer_timeout() -> void:
 
 	for w in to_remove:
 		active_workers.erase(w)
-		acid += w.inheritance
-		total_acid_earned += w.inheritance
+		money += w.inheritance
+		total_money_earned += w.inheritance
 		total_deaths += 1
 		show_death_message(w)
 
@@ -177,7 +198,7 @@ func show_death_message(w: Worker) -> void:
 	var msg_template = messages[randi() % messages.size()]
 	var pronoun = "Er" if w.is_male else "Sie"
 	var msg = msg_template % w.worker_name
-	var full_msg = msg + " %s vererbt dir %s Säure." % [pronoun, w.inheritance]
+	var full_msg = msg + " %s vererbt dir %s €." % [pronoun, w.inheritance]
 	add_log(full_msg)
 	Global.last_death_note = full_msg
 
@@ -185,16 +206,23 @@ func add_log(text: String) -> void:
 	log_label.text = text + "\n" + log_label.text
 
 func update_labels() -> void:
-	saeure_label.text = "Säure: %s" % acid
+	saeure_label.text = "Säure: %s Liter" % acid
+	geld_label.text = "Vermögen: %s €" % money
 	arbeiter_label.text = "Arbeiter: %s | Familie: %s" % [active_workers.size(), family_pool.size()]
+	update_buy_button()
+	update_sell_button()
 
 func update_buy_button() -> void:
 	if family_pool.size() == 0:
-		buy_button.text = "Familie erschöpft"
+		buy_button.text = "keine Familienmitglieder übrig"
 		buy_button.disabled = true
 	else:
-		buy_button.text = "Rekrutieren: %s Säure" % worker_cost
-		buy_button.disabled = false
+		buy_button.text = "Rekrutieren: %s €" % worker_cost
+		buy_button.disabled = money < worker_cost
+
+func update_sell_button() -> void:
+	sell_button.text = "Säure verkaufen (%s €/Liter)" % acid_cost
+	sell_button.disabled = acid < acid_cost
 
 func check_game_over() -> void:
 	if family_pool.size() == 0 and active_workers.size() == 0:
@@ -204,12 +232,14 @@ func check_game_over() -> void:
 		if hs.is_empty() or total_acid_earned > int(hs.get("total_acid", 0)):
 			SaveManager.save_highscore({
 				"total_acid": total_acid_earned,
+				"total_money": total_money_earned,
 				"total_deaths": total_deaths,
 				"family_name": family_name
 			})
 		# Daten für GameOver-Screen
 		Global.game_over_data = {
 			"total_acid": total_acid_earned,
+			"total_money": total_money_earned,
 			"total_deaths": total_deaths,
 			"family_name": family_name
 		}
@@ -240,8 +270,10 @@ func save_game() -> void:
 
 	SaveManager.save_game({
 		"acid": acid,
+		"money": money,
 		"worker_cost": worker_cost,
 		"total_acid_earned": total_acid_earned,
+		"total_money_earned": total_money_earned,
 		"total_deaths": total_deaths,
 		"family_name": family_name,
 		"active_workers": workers_data,
@@ -256,8 +288,10 @@ func load_game() -> void:
 		return
 
 	acid = int(data.get("acid", 0))
+	money = int(data.get("money", 0))
 	worker_cost = int(data.get("worker_cost", 10))
 	total_acid_earned = int(data.get("total_acid_earned", 0))
+	total_money_earned = int(data.get("total_money_earned", 0))
 	total_deaths = int(data.get("total_deaths", 0))
 	family_name = data.get("family_name", "Unbekannt")
 
