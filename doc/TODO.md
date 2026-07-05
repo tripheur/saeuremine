@@ -44,10 +44,19 @@
 - **Kontext:** Nach dem Speichern gibt es aktuell keine Möglichkeit, das
   Hauptspiel zu verlassen (kein Zurück zum Hauptmenü oder App-Exit aus
   `game.tscn` heraus).
-- **Umzusetzen:** Neuer Button in `game.tscn`, analog zu `menu_button` in
-  `game_over.tscn`. Auf Desktop vermutlich `get_tree().quit()`, auf
-  Android/für Zurück-zum-Menü eher `change_scene_to_file("res://scenes/main_menu.tscn")`
-  – zu klären, was hier gewünscht ist (Spiel verlassen vs. zurück ins Menü).
+- **Umzusetzen:** Ein Popup-Fenster öffnet sich und sagt "Spielstand gespeichert. Möchten Sie zum Hauptmenu zurückkehren?" Ja/Nein
+
+5. Story-Mode
+
+* Startseite zur Auswahl des Charakternamens und Geschlechts.
+* kurze Spieleinführung: Du bist [Spielername]. Vor kurzem bist du in den Besitz einer Säuremine gelangt. Die Arbeitsbedingungen sind hart und gefährlich. Niemand will für dich arbeiten....
+* Dann selber schuften, bis man 100 € verdient hat. (Lebensbalken sinkt langsam)
+* Vorstellung der Familie: Das sind deine Familienmitglieder. [Random ausgewähltes Familienmitglied] bittet dich, ihm/ ihr 100 Euro zu leihen. Da kommt dir eine Idee: Familienmitglied in die Mine schicken/ Gib die 100 € ohne Gegenleistung.
+* Du schickst Familienmitglied in die Mine und es arbeitet fleißig, bis es stirbt und du erbst. Daraufhin wird weitere Mitglieder in die Mine schicken freigeschaltet.
+* Wenn du 1000 Euro erspielt hast, werden die Upgrades freigeschaltet.
+* Wenn alle Familienmitglieder tot sind, musst du wieder selbst schuften. Wenn dein Lebensbalken leer ist, ist das Spiel zu Ende. Am Ende wird aufgerechnet (basierend auf der Zahl deiner Familienmitglieder - wieviel Geld du mit ihrem Tot verdient hast und ob du jetzt im Jenseits büßen musst.
+
+
 
 ## Später / Ideen (unpriorisiert)
 
