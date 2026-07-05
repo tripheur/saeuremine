@@ -18,7 +18,7 @@ static func create(w_name: String, w_type: Worker.Type, w_is_male: bool) -> Work
 	w.is_male = w_is_male
 	match w_type:
 		Worker.Type.ADULT:
-			w.production = 2
+			w.production = 10
 			w.lifetime = 60.0
 			w.inheritance = 300
 		Worker.Type.RETIREE:
