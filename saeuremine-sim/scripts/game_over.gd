@@ -7,17 +7,18 @@ extends Control
 
 func _ready() -> void:
 	var data = Global.game_over_data
-	stats_label.text = "Familie %s ist vollständig verbraucht.\n%s Mitglieder verheizt.\n%s Säure gefördert.\n%s € verdient." % [
-		data.get("family_name", "Unbekannt"),
+	stats_label.text = "Du bist zusammengebrochen.\n%s Mitglieder verheizt, %s verschont.\n%s Säure gefördert.\n%s € verdient.\nKarma: %s" % [
 		data.get("total_deaths", 0),
-		data.get("total_acid", 0),
-		data.get("total_money", 0)
+		data.get("spared", 0),
+		NumberFormat.with_dots(data.get("total_acid", 0)),
+		NumberFormat.with_dots(data.get("total_money", 0)),
+		data.get("karma", 0)
 	]
 	var hs = SaveManager.load_highscore()
 	if hs.is_empty():
 		highscore_label.text = ""
 	else:
-		highscore_label.text = "Highscore: %s Säure, %s € – Familie %s" % [hs.total_acid, hs.get("total_money", 0), hs.family_name]
+		highscore_label.text = "Highscore: %s €, %s Karma – Familie %s" % [NumberFormat.with_dots(hs.get("total_money", 0)), hs.get("karma", 0), hs.family_name]
 	if Global.last_death_note != "":
 		death_note_label.text = "Zuletzt gesehen: " + Global.last_death_note
 	else:

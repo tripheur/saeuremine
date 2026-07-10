@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://w7ene5nxu1bv"]
+[gd_scene load_steps=3 format=3 uid="uid://w7ene5nxu1bv"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_qsmnf"]
+[ext_resource type="Script" path="res://scripts/worker_manager.gd" id="2_8wpg7"]
 
 [node name="Game" type="Control" node_paths=PackedStringArray("saeure_label", "geld_label", "arbeiter_label", "buy_button", "sell_button", "work_button", "save_button", "upgrade_button", "timer", "log_label")]
 layout_mode = 3
@@ -161,7 +162,11 @@ grow_vertical = 2
 text = "Säure verkaufen (<value> €/Liter)
 "
 
+[node name="WorkerManager" type="Node" parent="."]
+script = ExtResource("2_8wpg7")
+
 [connection signal="pressed" from="Workbutton" to="." method="_on_work_button_pressed"]
 [connection signal="pressed" from="Buybutton" to="." method="_on_buy_button_pressed"]
 [connection signal="pressed" from="SaveButton" to="." method="_on_save_button_pressed"]
+[connection signal="pressed" from="Upgradebutton" to="." method="_on_upgrade_button_pressed"]
 [connection signal="pressed" from="Sellbutton" to="." method="_on_sell_button_pressed"]

@@ -6,16 +6,18 @@ enum Type { ADULT, RETIREE, CHILD }
 var worker_name: String
 var type: Worker.Type
 var is_male: bool
+var is_family: bool = true
 var production: int
 var lifetime: float
 var inheritance: int
 var age: float = 0.0
 
-static func create(w_name: String, w_type: Worker.Type, w_is_male: bool) -> Worker:
+static func create(w_name: String, w_type: Worker.Type, w_is_male: bool, w_is_family: bool = true) -> Worker:
 	var w = Worker.new()
 	w.worker_name = w_name
 	w.type = w_type
 	w.is_male = w_is_male
+	w.is_family = w_is_family
 	match w_type:
 		Worker.Type.ADULT:
 			w.production = 10
