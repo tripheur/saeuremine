@@ -7,7 +7,7 @@ extends Control
 
 func _ready() -> void:
 	var data = Global.game_over_data
-	stats_label.text = "Du bist zusammengebrochen.\n%s Mitglieder verheizt, %s verschont.\n%s Säure gefördert.\n%s € verdient.\nKarma: %s" % [
+	stats_label.text = "Du bist zusammengebrochen.\n%s Familienmitglieder verheizt, %s verschont.\n%s Säure gefördert.\n%s € verdient.\nKarma: %s" % [
 		data.get("total_deaths", 0),
 		data.get("spared", 0),
 		NumberFormat.with_dots(data.get("total_acid", 0)),

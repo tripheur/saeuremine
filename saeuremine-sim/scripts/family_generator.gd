@@ -3,23 +3,27 @@ extends RefCounted
 
 # Rückverweis auf die Game-Node, um auf geteilten Zustand zuzugreifen
 # (family_pool, active_workers, money, karma, family_name, ...).
-var game: Game
+# Bewusst UNTYPISIERT: Game erzeugt FamilyGenerator direkt beim Laden
+# (siehe game.gd), eine typisierte Rückreferenz auf Game würde eine
+# zirkuläre Abhängigkeit zwischen den beiden Skripten erzeugen, die
+# Godots Parser mit "Could not find type Game" quittiert.
+var game
 
 var worker_cost: int = 10
 
 var family_names = ["Müller", "Schmidt", "Schneider", "Fischer", "Weber",
 					"Wagner", "Becker", "Schulz", "Hoffmann", "Schäfer",
-					"Koch", "Bauer", "Richter", "Klein", "Wolf"]
+					"Koch", "Bauer", "Richter", "Klein", "Wolf", "Köhler", "Klimas"]
 
 var male_retiree_relations = ["Opa", "Uropa", "Großonkel"]
 var female_retiree_relations = ["Oma", "Uroma", "Großtante"]
 
-var male_names_adult = ["Herbert", "Klaus", "Dieter", "Rüdiger", "Peter", "Bernd", "Frank"]
-var female_names_adult = ["Monika", "Hannelore", "Brigitte", "Waltraud", "Anna", "Petra", "Gabi"]
-var male_names_retiree = ["Helmut", "Siegfried", "Waldemar", "Horst", "Günter", "Erich"]
-var female_names_retiree = ["Gertrude", "Irmgard", "Hildegard", "Elfriede", "Lieselotte"]
-var male_names_child = ["Tim", "Max", "Paul", "Felix", "Leon", "Lukas"]
-var female_names_child = ["Lisa", "Emma", "Lena", "Marie", "Sophie", "Hannah"]
+var female_names_adult = ["Julia", "Sarah", "Laura", "Katharina", "Nadine", "Jessica", "Paula", "Nicole", "Peggy", "Melanie", "Anja", "Zarah", "Chantal", "Svetlana", "Fatima"]
+var male_names_adult = ["Alexander", "Daniel", "Ronny", "Christian", "Marcel", "Tobias", "Ahmed", "Lee", "Enrico", "Maik", "Sergej"]
+var male_names_retiree = ["Thomas", "Michael", "Andreas", "Peter", "Frank", "Volker", "Klaus", "Detlef", "Ali", "Eberhard", "Götz"]
+var female_names_retiree = ["Susanne", "Sabine", "Andrea", "Martina", "Cornelia", "Petra", "Ulrike", "Monica", "Ayşe", "Gundula", "Roswitha"]
+var male_names_child = ["Matteo", "Finn", "Nikolai", "Konstantin", "Theo", "Anton", "Richard-Tiberius", "Kevin", "Noah", "Leon", "Jeremy-Pascal", "Mohammed", "Tariq"]
+var female_names_child = ["Mila", "Clara", "Leni", "Frieda", "Ella", "Ida", "Shania", "Dörte", "Pupsinella", "Mia", "Lea", "Cheyenne", "Amira", "Schaklin"]
 
 var death_messages_male = [
 	"%s wollte mal kurz schauen wie tief das Loch ist.",

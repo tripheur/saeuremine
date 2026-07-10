@@ -1,16 +1,19 @@
 class_name UpgradeSystem
 extends RefCounted
 
-var game: Game
+# Siehe family_generator.gd - bewusst untypisiert, gleicher Grund.
+var game
 
 # Upgrade-Level pro Upgrade-ID (0 = noch nicht gekauft)
 var upgrade_levels: Dictionary = {
 	"production": 0,
 	"lifetime": 0,
+	"work_yourself": 0,
 	"recruit_discount": 0,
 	"sell_rate": 0,
 	"neighbor_kid": 0,
 	"day_laborer": 0,
+	"regenerate": 0
 }
 
 # "growth" ist der Multiplikator PRO STUFE (z.B. 1.25 = +25% je Stufe,
@@ -21,10 +24,12 @@ var upgrade_levels: Dictionary = {
 var upgrade_defs: Dictionary = {
 	"production": {"name": "Eimer haben jetzt Henkel", "desc": "Säure-Produktion x1.25 pro Stufe", "base_cost": 50, "cost_growth": 1.6, "effect_growth": 1.25, "karma": -2},
 	"lifetime": {"name": "Pausen? Abgeschafft", "desc": "Lebenszeit-Produktion x1.2 pro Stufe", "base_cost": 60, "cost_growth": 1.6, "effect_growth": 1.2, "karma": -8},
-	"recruit_discount": {"name": "Schuldgefühle wecken", "desc": "Rekrutierungskosten x0.9 pro Stufe", "base_cost": 80, "cost_growth": 1.8, "effect_growth": 0.9, "max_level": 6, "karma": -6},
+	"work_yourself": {"name": "Do it yourself", "desc": "Selber Schuften x1.2 pro Stufe", "base_cost": 100, "cost_growth": 1.6, "effect_growth": 1.25, "karma": -2},
+	"recruit_discount": {"name": "Schuldgefühle wecken", "desc": "Rekrutierungskosten x0.9 pro Stufe", "base_cost": 80, "cost_growth": 1.8, "effect_growth": 1.2, "max_level": 8, "karma": +10},
 	"sell_rate": {"name": "Kartellabsprachen", "desc": "Erlös beim Säureverkauf x1.2 pro Stufe", "base_cost": 70, "cost_growth": 1.6, "effect_growth": 1.2, "karma": -4},
 	"neighbor_kid": {"name": "Nachbarsjungen überreden", "desc": "Ein fremdes Kind wird sofort in die Mine geschickt - kein Familienmitglied, taucht nirgends sonst auf", "base_cost": 30, "cost_growth": 1.3, "karma": -3},
 	"day_laborer": {"name": "Tagelöhner anheuern", "desc": "Eine fremde erwachsene Person wird sofort in die Mine geschickt - kein Familienmitglied", "base_cost": 70, "cost_growth": 1.4, "karma": -3},
+	"regenerate": {"name": "Selbstheilungskräfte", "desc": "Du kannst deine Gesundheit minimal regenerieren", "base_cost": 10.000, "cost_growth": 1.4, "karma": +3},
 }
 
 func get_production_multiplier() -> float:

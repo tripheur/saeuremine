@@ -25,7 +25,7 @@ var family_name: String
 var player_max_health: int = 100
 var player_health: int = 100
 var work_health_cost: int = 3    # Gesundheitsverlust pro Klick auf "Schuften"
-var health_regen_per_tick: int = 2  # Regeneration pro Timer-Tick (aktuell 1x/Sekunde), wenn nicht gearbeitet wird
+var health_regen_per_tick: int = 0  # Regeneration pro Timer-Tick (aktuell 1x/Sekunde), wenn nicht gearbeitet wird
 var karma: int = 0
 
 var family_pool: Array[Worker] = []
@@ -37,10 +37,14 @@ var player_is_male: bool
 # Ausgelagerte Teilsysteme - siehe family_generator.gd und upgrade_system.gd.
 # Beide halten eine Rückreferenz auf dieses Game-Objekt (game.family, game.upgrades),
 # damit Popups und andere Skripte z.B. game.upgrades.buy_upgrade(id) aufrufen können.
-var family := FamilyGenerator.new()
-var upgrades := UpgradeSystem.new()
+# Erzeugung erst in _ready() (nicht direkt hier), um zirkuläre Typ-Auflösung
+# beim Parsen zu vermeiden - siehe Kommentar in family_generator.gd.
+var family: FamilyGenerator
+var upgrades: UpgradeSystem
 
 func _ready() -> void:
+	family = FamilyGenerator.new()
+	upgrades = UpgradeSystem.new()
 	family.game = self
 	upgrades.game = self
 
