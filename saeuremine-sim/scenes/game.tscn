@@ -1,9 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://w7ene5nxu1bv"]
+[gd_scene load_steps=2 format=3 uid="uid://w7ene5nxu1bv"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_qsmnf"]
-[ext_resource type="Script" path="res://scripts/worker_manager.gd" id="2_8wpg7"]
 
-[node name="Game" type="Control" node_paths=PackedStringArray("saeure_label", "geld_label", "arbeiter_label", "buy_button", "sell_button", "work_button", "save_button", "upgrade_button", "timer", "log_label")]
+[node name="Game" type="Control" node_paths=PackedStringArray("saeure_label", "geld_label", "arbeiter_label", "buy_button", "sell_button", "work_button", "save_button", "upgrade_button", "timer", "log_label", "health_bar", "karma_label")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -21,6 +20,8 @@ save_button = NodePath("SaveButton")
 upgrade_button = NodePath("Upgradebutton")
 timer = NodePath("Timer")
 log_label = NodePath("ScrollContainer/Loglabel")
+health_bar = NodePath("HealthBar")
+karma_label = NodePath("KarmaLabel")
 
 [node name="Saeure" type="Label" parent="."]
 custom_minimum_size = Vector2(0, 80)
@@ -44,6 +45,30 @@ offset_right = 319.0
 offset_bottom = 94.0
 theme_override_font_sizes/font_size = 28
 text = "Vermögen: <value> €"
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 1
+offset_left = 37.0
+offset_top = 100.0
+offset_right = 319.0
+offset_bottom = 130.0
+value = 100.0
+show_percentage = false
+
+[node name="KarmaLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -330.0
+offset_top = 115.0
+offset_right = -20.0
+offset_bottom = 145.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 20
+text = "Karma: 0"
+horizontal_alignment = 1
 
 [node name="Workbutton" type="Button" parent="."]
 custom_minimum_size = Vector2(320, 80)
@@ -161,9 +186,6 @@ offset_bottom = -153.0
 grow_vertical = 2
 text = "Säure verkaufen (<value> €/Liter)
 "
-
-[node name="WorkerManager" type="Node" parent="."]
-script = ExtResource("2_8wpg7")
 
 [connection signal="pressed" from="Workbutton" to="." method="_on_work_button_pressed"]
 [connection signal="pressed" from="Buybutton" to="." method="_on_buy_button_pressed"]
